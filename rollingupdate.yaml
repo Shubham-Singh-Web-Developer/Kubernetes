@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rollingupdate-strategy
+  version: nanoserver-1709
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2 #max surge is set to 2 means maximum two pods extra can be created
+      maxUnavailable: 1 #max unavailable  is set to 1 means maximum 1 pods extra can have downtime
+  selector:
+    matchLabels:
+      app: web-app-rollingupdate-strategy
+      version: nanoserver-1709
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: web-app-rollingupdate-strategy
+        version: nanoserver-1709
+    spec:
+      containers:
+        - name: web-app-rollingupdate-strategy
+          image: hello-world:nanoserver-1709
